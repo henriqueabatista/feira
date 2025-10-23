@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Educativo</title>
+    <link rel="shortcut icon" href="img/favicon.png">
+    <link href="bootstrap-5.3.8-dist/css/bootstrap.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/surprisedmonkey" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/barlow" rel="stylesheet">
+    <link rel="stylesheet" href="estilo.css">
+    <style>
+        .quiz-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .question-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .option-btn {
+            width: 100%;
+            text-align: left;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .option-btn:hover {
+            border-color: #6b4c9a;
+            background: #f8f7fc;
+            transform: translateX(4px);
+        }
+        
+        .option-btn.correct {
+            border-color: #22c55e;
+            background: #f0fdf4;
+        }
+        
+        .option-btn.incorrect {
+            border-color: #ef4444;
+            background: #fef2f2;
+        }
+        
+        .option-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        
+        .explanation {
+            background: linear-gradient(135deg, #e8e5f5, #f0edf7);
+            border-left: 4px solid #6b4c9a;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+        
+        .progress-bar-custom {
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #2c3e87, #6b4c9a);
+            transition: width 0.3s ease;
+        }
+        
+        .score-card {
+            background: linear-gradient(135deg, #2c3e87, #6b4c9a);
+            color: white;
+            border-radius: 12px;
+            padding: 3rem;
+            text-align: center;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        
+        .score-number {
+            font-size: 4rem;
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+        
+        .btn-primary-custom {
+            background: linear-gradient(135deg, #2c3e87, #6b4c9a);
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        
+        .btn-primary-custom:hover {
+            transform: scale(1.05);
+        }
+        
+        .start-screen {
+            text-align: center;
+            padding: 3rem;
+        }
+        
+        .start-screen h2 {
+            color: #2c3e87;
+            margin-bottom: 1.5rem;
+        }
+        
+        .start-screen p {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background: linear-gradient(135deg,#2c3e87,#6b4c9a);">
+            <div class="container">
+                <a class="navbar-brand fw-bold" href="index.html">VÍCIO NA ADOLESCÊNCIA</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item"><a class="nav-link" href="index.html">Início</a></li>
+                        <li class="nav-item"><a class="nav-link" href="vicio.html">Vícios</a></li>
+                        <li class="nav-item"><a class="nav-link" href="ajuda.html">Ajuda</a></li>
+                        <li class="nav-item"><a class="nav-link" href="dados.html">Dados</a></li>
+                        <li class="nav-item"><a class="nav-link" href="jogo.html">Quiz</a></li>
+                        <li class="nav-item"><a class="nav-link" href="contato.html">Contato</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <section class="banner-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center text-white">
+                    <h1 class="display-3 fw-bold mb-4">Quiz Educativo</h1>
+                    <p class="subtitulo fs-4">Teste seus conhecimentos sobre prevenção e conscientização</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5">
+        <div class="container quiz-container">
+            <!-- Start Screen -->
+            <div id="startScreen" class="question-card start-screen">
+                <h2 class="fw-bold">Bem-vindo ao Quiz sobre Vícios na Adolescência!</h2>
+                <p>Este quiz contém 10 perguntas sobre prevenção, sintomas, tratamento e conscientização. Teste seus conhecimentos e aprenda mais sobre este importante tema.</p>
+                <button class="btn-primary-custom" onclick="startQuiz()">Começar Quiz</button>
+            </div>
+
+            <!-- Quiz Screen -->
+            <div id="quizScreen" class="hidden">
+                <!-- Progress Bar -->
+                <div class="progress-bar-custom">
+                    <div id="progressBar" class="progress-fill" style="width: 0%"></div>
+                </div>
+
+                <!-- Question Counter -->
+                <div class="text-center mb-4">
+                    <h5 class="fw-semibold" style="color: #2c3e87;">
+                        Pergunta <span id="currentQuestion">1</span> de <span id="totalQuestions">10</span>
+                    </h5>
+                </div>
+
+                <!-- Question Card -->
+                <div class="question-card">
+                    <h3 class="fw-bold mb-4" id="questionText"></h3>
+                    <div id="optionsContainer"></div>
+                    <div id="explanationContainer" class="hidden"></div>
+                    <div class="text-center mt-4">
+                        <button id="nextButton" class="btn-primary-custom hidden" onclick="nextQuestion()">
+                            Próxima Pergunta
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Screen -->
+            <div id="resultsScreen" class="hidden">
+                <div class="score-card">
+                    <h2 class="fw-bold mb-3">Quiz Concluído!</h2>
+                    <p class="fs-5">Sua pontuação:</p>
+                    <div class="score-number" id="finalScore">0/10</div>
+                    <p class="fs-5 mb-4" id="scoreMessage"></p>
+                    <div class="mb-4">
+                        <p class="fw-semibold">Lembre-se:</p>
+                        <p>Se você ou alguém que você conhece precisa de ajuda, ligue para o CVV: <strong>188</strong></p>
+                        <p class="small">Atendimento gratuito e sigiloso, 24 horas por dia</p>
+                    </div>
+                    <button class="btn-primary-custom" onclick="restartQuiz()">Refazer Quiz</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p class="mb-1">&copy; 2025 Projeto Vício na Adolescência. Todos os direitos reservados.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="bootstrap-5.3.8-dist/js/bootstrap.bundle.js"></script>
+    <script>
+        const questions = [
+            {
+                question: "Qual é o primeiro passo para superar um vício?",
+                options: [
+                    "Esconder o problema dos outros",
+                    "Reconhecer que existe um problema",
+                    "Tentar resolver sozinho sem ajuda",
+                    "Esperar que o problema desapareça"
+                ],
+                correct: 1,
+                explanation: "Reconhecer que existe um problema é o primeiro e mais importante passo. Admitir a situação permite buscar ajuda e iniciar o processo de recuperação."
+            },
+            {
+                question: "Qual número você deve ligar se precisar de apoio emocional imediato?",
+                options: [
+                    "190 (Polícia)",
+                    "192 (SAMU)",
+                    "188 (CVV)",
+                    "180 (Disque Denúncia)"
+                ],
+                correct: 2,
+                explanation: "O CVV (Centro de Valorização da Vida) atende pelo 188, oferecendo apoio emocional gratuito e sigiloso 24 horas por dia."
+            },
+            {
+                question: "Qual tipo de tratamento envolve compartilhar experiências com pessoas em situações semelhantes?",
+                options: [
+                    "Terapia Individual",
+                    "Acompanhamento Médico",
+                    "Terapia em Grupo",
+                    "Internação"
+                ],
+                correct: 2,
+                explanation: "A terapia em grupo proporciona troca de experiências e apoio entre pessoas que enfrentam situações parecidas, fortalecendo o sentimento de pertencimento."
+            },
+            {
+                question: "Qual NÃO é um sintoma comum de dependência?",
+                options: [
+                    "Necessidade crescente de usar a substância",
+                    "Melhora no desempenho escolar",
+                    "Isolamento social",
+                    "Mudanças de humor"
+                ],
+                correct: 1,
+                explanation: "A dependência geralmente causa piora no desempenho escolar, não melhora. Outros sintomas incluem necessidade crescente de uso, isolamento e mudanças de humor."
+            },
+            {
+                question: "O que é o CAPS?",
+                options: [
+                    "Um tipo de droga",
+                    "Centro de Atenção Psicossocial do SUS",
+                    "Uma marca de medicamento",
+                    "Um programa de TV"
+                ],
+                correct: 1,
+                explanation: "CAPS são serviços públicos gratuitos do SUS que atendem pessoas com sofrimento mental ou dependência química, oferecendo apoio profissional."
+            },
+            {
+                question: "Qual atividade NÃO ajuda na prevenção de vícios?",
+                options: [
+                    "Praticar exercícios físicos",
+                    "Isolar-se completamente",
+                    "Ter hobbies saudáveis",
+                    "Manter uma rotina equilibrada"
+                ],
+                correct: 1,
+                explanation: "O isolamento pode aumentar o risco de vícios. Exercícios, hobbies e rotina saudável são fatores de proteção importantes."
+            },
+            {
+                question: "Como familiares devem agir ao descobrir que um adolescente tem um vício?",
+                options: [
+                    "Ignorar o problema",
+                    "Punir severamente",
+                    "Escutar sem julgar e oferecer apoio",
+                    "Resolver tudo sozinho"
+                ],
+                correct: 2,
+                explanation: "Escutar sem julgar e oferecer apoio é fundamental. O adolescente precisa sentir que pode contar com a família para buscar ajuda."
+            },
+            {
+                question: "Qual é um benefício da atividade física na prevenção de vícios?",
+                options: [
+                    "Aumenta o estresse",
+                    "Libera endorfinas e reduz ansiedade",
+                    "Causa isolamento social",
+                    "Diminui a autoestima"
+                ],
+                correct: 1,
+                explanation: "Exercícios físicos liberam endorfinas, reduzindo ansiedade e estresse, que são fatores que podem levar ao uso de substâncias."
+            },
+            {
+                question: "O que significa a sigla NA?",
+                options: [
+                    "Nutrição Adequada",
+                    "Narcóticos Anônimos",
+                    "Novos Amigos",
+                    "Nenhuma Alternativa"
+                ],
+                correct: 1,
+                explanation: "NA significa Narcóticos Anônimos, um grupo de apoio gratuito para pessoas que desejam parar de usar drogas."
+            },
+            {
+                question: "Por que é importante estabelecer limites com adolescentes?",
+                options: [
+                    "Para controlar completamente suas vidas",
+                    "Para formar caráter e responsabilidade",
+                    "Para isolá-los dos amigos",
+                    "Para impedir qualquer diversão"
+                ],
+                correct: 1,
+                explanation: "Estabelecer limites ajuda a formar caráter, responsabilidade e consciência sobre as consequências das escolhas, sem impedir o desenvolvimento saudável."
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let answered = false;
+
+        function startQuiz() {
+            document.getElementById('startScreen').classList.add('hidden');
+            document.getElementById('quizScreen').classList.remove('hidden');
+            document.getElementById('totalQuestions').textContent = questions.length;
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            answered = false;
+            const question = questions[currentQuestionIndex];
+            
+            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+            document.getElementById('questionText').textContent = question.question;
+            document.getElementById('explanationContainer').classList.add('hidden');
+            document.getElementById('nextButton').classList.add('hidden');
+            
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.className = 'option-btn';
+                button.textContent = option;
+                button.onclick = () => selectAnswer(index);
+                optionsContainer.appendChild(button);
+            });
+            
+            updateProgressBar();
+        }
+
+        function selectAnswer(selectedIndex) {
+            if (answered) return;
+            
+            answered = true;
+            const question = questions[currentQuestionIndex];
+            const buttons = document.querySelectorAll('.option-btn');
+            
+            buttons.forEach((button, index) => {
+                button.disabled = true;
+                if (index === question.correct) {
+                    button.classList.add('correct');
+                }
+                if (index === selectedIndex && index !== question.correct) {
+                    button.classList.add('incorrect');
+                }
+            });
+            
+            if (selectedIndex === question.correct) {
+                score++;
+            }
+            
+            const explanationContainer = document.getElementById('explanationContainer');
+            explanationContainer.innerHTML = `
+                <div class="explanation">
+                    <strong>${selectedIndex === question.correct ? '✓ Correto!' : '✗ Incorreto'}</strong>
+                    <p class="mb-0 mt-2">${question.explanation}</p>
+                </div>
+            `;
+            explanationContainer.classList.remove('hidden');
+            document.getElementById('nextButton').classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function updateProgressBar() {
+            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function showResults() {
+            document.getElementById('quizScreen').classList.add('hidden');
+            document.getElementById('resultsScreen').classList.remove('hidden');
+            
+            document.getElementById('finalScore').textContent = score + '/' + questions.length;
+            
+            let message = '';
+            const percentage = (score / questions.length) * 100;
+            
+            if (percentage >= 80) {
+                message = 'Excelente! Você tem um ótimo conhecimento sobre o tema!';
+            } else if (percentage >= 60) {
+                message = 'Muito bem! Você está no caminho certo!';
+            } else if (percentage >= 40) {
+                message = 'Bom trabalho! Continue aprendendo sobre o tema!';
+            } else {
+                message = 'Continue estudando! O conhecimento é fundamental para a prevenção!';
+            }
+            
+            document.getElementById('scoreMessage').textContent = message;
+        }
+
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            answered = false;
+            
+            document.getElementById('resultsScreen').classList.add('hidden');
+            document.getElementById('startScreen').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
