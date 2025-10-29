@@ -170,28 +170,28 @@
 
     <section class="py-5">
         <div class="container quiz-container">
-            <!-- Start Screen -->
+      
             <div id="startScreen" class="question-card start-screen">
                 <h2 class="fw-bold">Bem-vindo ao Quiz sobre Vícios na Adolescência!</h2>
                 <p>Este quiz contém 10 perguntas sobre prevenção, sintomas, tratamento e conscientização. Teste seus conhecimentos e aprenda mais sobre este importante tema.</p>
                 <button class="btn-primary-custom" onclick="startQuiz()">Começar Quiz</button>
             </div>
 
-            <!-- Quiz Screen -->
+        
             <div id="quizScreen" class="hidden">
-                <!-- Progress Bar -->
+           
                 <div class="progress-bar-custom">
                     <div id="progressBar" class="progress-fill" style="width: 0%"></div>
                 </div>
 
-                <!-- Question Counter -->
+                
                 <div class="text-center mb-4">
                     <h5 class="fw-semibold" style="color: #2c3e87;">
                         Pergunta <span id="currentQuestion">1</span> de <span id="totalQuestions">10</span>
                     </h5>
                 </div>
 
-                <!-- Question Card -->
+              
                 <div class="question-card">
                     <h3 class="fw-bold mb-4" id="questionText"></h3>
                     <div id="optionsContainer"></div>
@@ -204,7 +204,6 @@
                 </div>
             </div>
 
-            <!-- Results Screen -->
             <div id="resultsScreen" class="hidden">
                 <div class="score-card">
                     <h2 class="fw-bold mb-3">Quiz Concluído!</h2>
